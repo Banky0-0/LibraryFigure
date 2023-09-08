@@ -2,60 +2,59 @@
 
 namespace ClassLibrary
 {
-    public class Figure
+    abstract class Figure
     {
-        public double Area { get; set; }
+        string Name { get; }
+        double Area { get; set; }
+        double Lenght { get; set; }
 
-        public double Lenght { get; set; }
+        public abstract double MathArea();
+        public abstract double MathLenght();
 
-        public Figure(double area, double lenght)
+        public Figure( string name)
         {
+            Name = name;
+        }
+
+        public Figure(string name, double area, double lenght)
+        {
+            Name = name;    
             Area = area;
             Lenght = lenght;
         }
     }
 
-    public class Triangle : Figure
+    class Triangle : Figure
     {
-        public static double area;//площадь
+        double SideA { get; }
+        double SideB { get; }
+        double SideC { get; }
 
-        public static double lenght;//периметр
 
-        public string TypeTriangle { get; set; }// тип периметра
-
-        private string DefinitionType(int idType)
+        public Triangle(string name) : base(name)
         {
-            string typeTriangle = "";
-                
-            switch (idType)
-            {
-                case 1:
-                    return typeTriangle = "right triangle";
-                case 2:
-                    return typeTriangle = "obtuse triangle";
-                case 3:
-                    return typeTriangle = "acute triangle";
-            }
-            return typeTriangle = "right triangle";
+
         }
 
-        private double MathArea(double a, double h)
+        public Triangle(string name, double a, double b, double c) 
+            : base(name)
         {
-            return area = h * a * 0.5;
+            SideA = a;
+            SideB = b;
+            SideC = c;
         }
 
-        private double MathLenght(double a, double b, double c)
-        {
-            return lenght = a+b+c;
+        public override double MathArea()
+        { 
+            double a = SideA;
+            double b = SideB;
+            double c = SideC;
+            double p = (a+b+c)/2;
+
+            return Math.Sqrt(p*(p-a)*(p-b)*(p-c));
         }
 
-        public Triangle(int idType, double h,double a, double b, double c) 
-            : base(area,lenght)
-        {
-            TypeTriangle = DefinitionType(idType);
-        }
+        public override double MathLenght() => SideA + SideB + SideC;
+        
     }
-
-
-
 }
